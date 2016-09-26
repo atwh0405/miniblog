@@ -1,0 +1,27 @@
+<ul class="posts col-md-8">
+    <li>
+        <div>标题</div>
+        <div>作者</div>
+        <div>创建时间</div>
+        <div>操作</div>
+    </li>
+    {% for post in posts %}
+    <li class="post">
+        <div class="profile-thumbnail pull-right">
+            <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
+                <img class="img-rounded profile_thumbnail"
+                     src="{{ post.author.gravatar(size=40) }}">
+            </a>
+        </div>
+        <div class="post-data">{{ moment(post.timestamp).format('LLL') }}</div>
+        <div class="post-author">
+            <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
+                {{ post.author.username }}
+            </a>
+        </div>
+        <div>
+            <a href="{{ url_for('post.post_profile', id=post.id)}}">{{ post.title }}</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

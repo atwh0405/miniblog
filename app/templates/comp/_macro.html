@@ -1,0 +1,25 @@
+{% macro pagination(pagination, endpoint) %}
+<ul class="pagination">
+    {% if pagination.has_prev %}
+          <li><a href="{{ url_for(endpoint, p=pagination.page - 1) }}">&laquo;</a></li>
+    {% else %}
+        <li class="disabled"><a href="#">&laquo;</a></li>
+    {% endif %}
+    {% for page in pagination.iter_pages(left_current=2, left_edge=2, right_current=2, right_edge=2) %}
+        {% if page %}
+            {% if page == pagination.page %}
+            <li class="active"><a href="{{ url_for(endpoint, p=page) }}">{{ page }}</a></li>
+            {% else %}
+            <li><a href="{{ url_for(endpoint, p=page) }}">{{ page }}</a></li>
+            {% endif %}
+        {% else %}
+            <li class="disabled"><a href="#">&hellip;</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if not pagination.has_next %}
+        <li class="disabled"><a href="#">&raquo;</a></li>
+    {% else %}
+        <li><a href="{{ url_for(endpoint, p=pagination.page + 1) }}">&raquo;</a></li>
+    {% endif %}
+</ul>
+{% endmacro %}
