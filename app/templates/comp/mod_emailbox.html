@@ -1,7 +1,9 @@
 {% import 'bootstrap/wtf.html' as wtf %}
-<div class="page-header">
-    <h1>修改Email</h1>
-</div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="post-title page-header h3">修改Email</div>
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
 </div>

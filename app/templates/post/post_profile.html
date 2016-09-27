@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+{{ super() }}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-9 column">
+            <article class="post">
+                <div class="post-title h2">{{ post.title }}</div>
+                <p class="post-meta">
+                    <span class="post-date">
+                        <i class="iconfont icon-shijian"></i>
+                        {{ moment(post.timestamp).format('MM DD, YYYY') }}
+                    </span>
+                    <span class="post-tag">
+                        <i class="iconfont icon-biaoqian"></i>
+                        这是标签
+                    </span>
+                    <span class="profile-thumbnail">
+                        <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
+                            <img class="img-rounded profile_thumbnail"
+                                 src="{{ post.author.gravatar(size=40) }}">
+                        </a>
+                    </span>
+                    <span class="post-author">
+                        <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
+                            {{ post.author.username }}
+                        </a>
+                    </span>
+                </p>
+                <div class="post-content">
+                    <p>
+                    {% if post.body_html %}
+                    {{ post.body_html | safe}}
+                    {% else %}
+                    {{ post.body }}
+                    {% endif %}
+                    </p>
+                </div>
+            </article>
 
-</body>
-</html>
+            <div class="post-footer">
+            {% if current_user == post.author %}
+            <a href="{{ url_for('post.edit_post', id=post.id) }}">
+                <button type="button" class="btn btn-primary">编辑本文</button>
+            </a>
+            {% endif %}
+            {% if current_user.can(Permissions.MOD_ARTICLES) %}
+            <a href="{{ url_for('post.edit_post', id=post.id) }}">
+                <button type="button" class="btn btn-danger">编辑本文</button>
+            </a>
+            {% endif %}
+            </div>
+            <div class="comment-box">
+            {% include 'comp/commentbox.html' %}
+            </div>
+            <div id="comments">
+            {% include 'comp/_comments.html' %}
+            </div>
+            {% endblock content %}
+        </div>
+        <div class="col-md-3 column">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,27 +1,49 @@
-<ul class="posts col-md-8">
-    <li>
-        <div>标题</div>
-        <div>作者</div>
-        <div>创建时间</div>
-        <div>操作</div>
-    </li>
+<ul class="comments">
     {% for post in posts %}
-    <li class="post">
-        <div class="profile-thumbnail pull-right">
+    <li class="comment">
+        <div class="comment-thumbnail">
             <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
                 <img class="img-rounded profile_thumbnail"
                      src="{{ post.author.gravatar(size=40) }}">
             </a>
         </div>
-        <div class="post-data">{{ moment(post.timestamp).format('LLL') }}</div>
-        <div class="post-author">
-            <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
-                {{ post.author.username }}
-            </a>
+        <div class="comment-content">
+            <div class="comment-author">
+                <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
+                    {{ post.author.username }}
+                </a>
+            </div>
+            <a class="coment-body" href="{{ url_for('post.post_profile', id=post.id)}}">{{ post.title }}</a>
+            <div class="comment-date">{{ moment(post.timestamp).format('LLL') }}</div>
         </div>
-        <div>
-            <a href="{{ url_for('post.post_profile', id=post.id)}}">{{ post.title }}</a>
+        <div class="operation">
+            <a href="{{ url_for('post.edit_post', id=post.id)}}">
+                <button type="button" class="btn btn-primary">
+                <span></span>编辑
+                </button>
+            </a>
+            <button type="button" class="btn btn-danger" post-id="{{ post.id }}" data-toggle="modal" data-target="#confirm">
+                <span></span>删除
+            </button>
+                    <!-- 确认模态框 -->
+<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirmLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="confirmLabel">确认删除</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <a  id="modal-confirm" href="#">
+                    <button type="button" class="btn btn-danger">确定</button>
+                </a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
         </div>
     </li>
     {% endfor %}
-</ul>
+

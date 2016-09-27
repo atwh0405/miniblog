@@ -1,10 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% import 'comp/_macro.html' as macro %}
+{% block title %}查看用户{{ user.username }}{% endblock %}
+{% block content %}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-3 column">
+            <h1 class="text-left">{{ user.username }}</h1>
+            <img class="img-rounded profile-icon" src="{{ user.gravatar(size=128) }}">
+            {% if user.name or user.location %}
+            <p>
+                    {% if user.name %}{{ user.name }}{% endif %}
+                    {% if user.location %}
+                        <a href="http://maps.google.com/?q={{ user.location }}">@{{ user.location }}</a>
+                    {% endif %}
+                </p>
+            {% endif %}
+            {% if current_user.is_administrator() %}
+            <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+            {% endif %}
+            {% if user.about_me %}<P>{{ user.about_me }}</P>{% endif %}
+            <p>
+                注册时间:  {{ moment(user.since).format('L') }}
+                <br>
+                最近活动:  {{ moment(user.last_seen).fromNow() }}
+            </p>
 
-</body>
-</html>
+            {% if user == current_user %}
+            <a class="btn btn-primary" href="{{ url_for('user.edit_profile') }}">
+                编辑资料
+            </a>
+            <a href="{{ url_for('post.create_post') }}">
+                    <button  class="btn btn-primary">写新文章</button>
+            </a>
+            {% endif %}
+            {% if current_user.is_administrator() %}
+            <a class="btn btn-danger" href="{{ url_for('user.edit_profile_by_admin', id=user.id) }}">
+                编辑资料
+            </a>
+            {% endif %}
+        </div>
+        <div class="col-md-9 column">
+            <div>
+                <!--通过判断传入参数决定应该渲染哪一部分-->
+                {% if comments %}
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ url_for('user.user_profile', username=user.username)}}">文章</a></li>
+                    <li class="active"><a href=>评论</a></li>
+                </ul>
+                {% include 'comp/_comments.html' %}
+                <div class="pagination">
+                    <!--注意应传入所有必要的参数给宏-->
+                    {{ macro.pagination_comments(pagination, 'user.user_profile_comments', username=user.username) }}
+                </div>
+                {% endif %}
+                {% if posts %}
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#">文章</a></li>
+                    <li><a href="{{ url_for('user.user_profile_comments', username=user.username)}}">评论</a></li>
+                </ul>
+                {% include 'comp/_posts.html' %}
+                <div class="pagination">
+                    {{ macro.pagination(pagination, 'user.user_profile', username=user.username) }}
+                </div>
+                {% endif %}
+                {% if comments == [] %}
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ url_for('user.user_profile', username=user.username)}}">文章</a></li>
+                    <li class="active"><a href=>评论</a></li>
+                </ul>
+                <h2>暂无评论！</h2>
+                {% endif %}
+                {% if posts == [] %}
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#">文章</a></li>
+                    <li><a href="{{ url_for('user.user_profile_comments', username=user.username)}}">评论</a></li>
+                </ul>
+                <h2>暂无文章！</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ super() }}
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock scripts %}

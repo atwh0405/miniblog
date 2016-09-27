@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% import 'comp/_macro.html' as macro %}
+{% block title %}Archive{% endblock %}
+{% block content %}
+<div class="container content">
+	<div class="row">
+		<div class="col-md-9 column">
+            {% for post in posts %}
+                <article class="post">
+                    <span class="post-date">
+                        <i class="iconfont icon-shijian"></i>
+                        {{ moment(post.timestamp).format('YYYY-MM-DD') }}
+                    </span>
+                    <span>
+                        <a href="{{ url_for('post.post_profile', id=post.id) }}">{{ post.title }}</a>
+                    </span>
+                </article>
+            {% endfor %}
+		</div>
+		<div class="col-md-3 column sidebar">
+			<h3 class="tag-head text-center">TAGS</h3>
+			<ul class="tag-list">
+				<li class="tag-item h4">tag1()</li>
+				<li class="tag-item h4">tag2()</li>
+				<li class="tag-item h4">tag3()</li>
+				<li class="tag-item h4">tag4()</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{{ super() }}
+{% endblock content %}
 
-</body>
-</html>
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock scripts %}

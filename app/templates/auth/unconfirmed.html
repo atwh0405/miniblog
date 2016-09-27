@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>'重新发送确认邮件</h2>
-<br>
-<p>请点击：</p>
-<a>{{ url_for('auth.resend_mail', token=token, _external=True</a>
+{{ super() }}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-9">
+            <h2>您好，{{ current_user.username }}</h2>
+            <br>
+            <h3>您的账户还未确认！</h3>
+            <p>继续浏览之前，需要您确认账户。请检查您的邮箱是否收到一封确认邮件</p>
+            <p>重新发送确认邮件，请点击<a href="{{ url_for('auth.resend_confirmation')}}">这里</a></p>
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
+

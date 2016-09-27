@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% import 'comp/_macro.html' as macro %}
+{% block title %}Admin - 后台管理{% endblock %}
+{% block content %}
+{{ super() }}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="post-title page-header h3">后台管理</div>
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#">文章</a></li>
+                <li><a href="{{url_for('admin.users')}}">用户</a></li>
+                <li><a href="{{url_for('admin.comments')}}">评论</a></li>
+                <li><a href="{{url_for('admin.role_manage')}}">权限管理</a></li>
+            </ul>
+            {% include 'admin/posts.html' %}
+            {{ macro.pagination(pagination, 'admin.posts') }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+<script>
+    $(document).ready(function(){
+        $('#confirm').on('show.bs.modal', function(e){
+            var btn = $(e.relatedTarget);
+            $(this).children().find('#modal-confirm').attr('href', 'http://127.0.0.1:5000/admin/delete_post/' + btn.attr('post-id'));
+            var title = btn.parents('.operation').prev().children().text();
+            $(this).find('.modal-body').text('确定要删除标题为“' + title + '”的文章吗？');
+    });});
+</script>
+{% endblock %}

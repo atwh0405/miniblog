@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-9">
+            <h2>您好，{{ current_user.username }}</h2>
+            <br>
+            <h3>一封邮件被发送到了您的新Email地址中</h3>
+            <p>要使新Email生效，请点击邮件中的确认链接。</p>
+            <p>重新发送确认邮件，请点击<a href="{{ url_for('auth.resend_confirm_mod_email')}}">这里</a></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -19,7 +19,7 @@ class Permissions():
     WRITE_ARTICLES = 0b00000100
     MOD_COMMENTS = 0b00001000
     MOD_ARTICLES = 0b00010000
-    ADMINISTER = 0b11111111
+    ADMINISTRATOR = 0b11111111
 
 
 @login_manager.user_loader
@@ -37,6 +37,7 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author = db.relationship('User', backref=db.backref('posts', lazy='dynamic'))
     body_html = db.Column(db.Text)
+    ta
 
     @staticmethod
     def generate_fake(count=50):
@@ -78,7 +79,7 @@ class Comment(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     author = db.relationship('User', backref=db.backref('comments', lazy='dynamic'))
-    post = db.relationship('Post', backref=db.backref('posts', lazy='dynamic'))
+    post = db.relationship('Post', backref=db.backref('comments', lazy='dynamic'))
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
@@ -110,14 +111,14 @@ class User(UserMixin, db.Model):
         # 账户建立初始就根据Email判断管理员身份，
         if self.role is None:
             if self.email == current_app.config['ADMIN']:
-                self.role = Role.query.filter_by(name='ADMINISTER').first()
+                self.role = Role.query.filter_by(name='ADMINISTRATOR').first()
             else:
                 self.role = Role.query.filter_by(default=True).first()
         if self.email is not None and self.portrait_hash is None:
             self.portrait_hash = hashlib.md5(self.email.encode('utf8')).hexdigest()
 
     def is_administrator(self):
-        return self.can(Permissions.ADMINISTER)
+        return self.can(Permissions.ADMINISTRATOR)
 
     def ping(self):
         self.last_seen = datetime.utcnow()
@@ -212,7 +213,7 @@ class User(UserMixin, db.Model):
 
 
 class AnonymousUser(AnonymousUserMixin):
-    def can(self):
+    def can(self, permission):
         return False
 
     def is_administrator(self):
@@ -240,7 +241,7 @@ class Role(db.Model):
                           Permissions.WRITE_ARTICLES |
                           Permissions.MOD_ARTICLES |
                           Permissions.MOD_COMMENTS, False),
-            'Administer': (Permissions.ADMINISTER, False)
+            'Administrator': (Permissions.ADMINISTRATOR, False)
         }
         for role in roles:
             r = Role.query.filter_by(name=role).first()

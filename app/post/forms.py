@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import redirect, render_template
 from flask_wtf import Form
 from wtforms import SubmitField, StringField
 from wtforms.validators import DataRequired, Length

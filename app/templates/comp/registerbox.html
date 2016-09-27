@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% import 'bootstrap/wtf.html' as wtf %}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="post-title page-header h3">注册</div>
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+</div>

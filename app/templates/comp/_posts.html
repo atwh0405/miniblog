@@ -1,30 +1,44 @@
-<ul class="posts col-md-8">
-    {% for post in posts %}
-    <li class="post">
-        <div class="profile-thumbnail pull-right">
+
+{% for post in posts %}
+<article class="post">
+    <div class="post-title h2">
+        <a href="{{ url_for('post.post_profile', id=post.id)}}">{{ post.title }}</a>
+    </div>
+    <p class="post-meta">
+        <span class="post-date">
+            <i class="iconfont icon-shijian"></i>
+            {{ moment(post.timestamp).format('YYYY-MM-DD') }}
+        </span>
+        <span class="post-tag">
+            <i class="iconfont icon-biaoqian"></i>
+            这是标签
+        </span>
+        <!--
+        <span class="profile-thumbnail">
             <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
                 <img class="img-rounded profile_thumbnail"
                      src="{{ post.author.gravatar(size=40) }}">
             </a>
-        </div>
-        <div class="post-data">{{ moment(post.timestamp).format('LLL') }}</div>
-        <div class="post-author">
+        </span>-->
+        <span class="post-author">
             <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
                 {{ post.author.username }}
             </a>
+        </span>
+    </p>
+    <div class="post-content">
+        {{ post.summary }}
+        <a href="{{ url_for('post.post_profile', id=post.id)}}">
+            <i class="iconfont icon-more"></i></a>
+    </div>
+    <div class="post-footer">
+        <a href="{{ url_for('post.post_profile', id=post.id)}}">
+            <button type="button" class="btn btn-primary">Read More</button></a>
+        <div class="post-comment pull-right">
+            <a href="{{ url_for('post.post_profile', id=post.id)}}#comments">
+                <span class="label label-info">评论 {{ post.comments.count() }}</span>
+            </a>
         </div>
-        <div>
-            <a href="{{ url_for('post.post_profile', id=post.id)}}">{{ post.title }}</a>
-            <div class="pull-right">
-                <a href="{{ url_for('post.post_profile', id=post.id)}}#comments">
-                <span class="badge">{{ post.comments.count() }}</span>
-                </a>
-            </div>
-        </div>
-        <div class="post-body">
-            {{ post.summary }}
-            <div><a href="{{ url_for('post.post_profile', id=post.id)}}">Read More</a></div>
-        </div>
-    </li>
-    {% endfor %}
-</ul>
+    </div>
+</article>
+{% endfor %}

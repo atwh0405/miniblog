@@ -1,10 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'bootstrap/base.html' %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1473176225_039732.css">
+<link rel="shortcut icon" href=" /static/favicon.ico">
+{% endblock %}
 
-</body>
-</html>
+{% block body %}
+<div class="jumbotron" style="background-color: #AEC1D2">
+		<div class="container">
+			<h2 class="jum-head text-center">Welcome to AT-BLOG!</h2>
+			<p class="lead text-right">无情最是台城柳，依旧烟笼十里堤</p>
+			<p class="jum-author text-right">— 韦庄</p>
+		</div>
+</div>
+{% block navbar %}
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+	<div class="navbar-header">
+		 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			 <span class="sr-only">Toggle navigation</span>
+			 <span class="icon-bar"></span>
+			 <span class="icon-bar"></span><span class="icon-bar"></span>
+		 </button> <a class="navbar-brand" href="{{ url_for('main.index') }}">AT-BLOG</a>
+	</div>
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">
+			{% if current_user.is_authenticated %}
+			<li>
+				 <a href="{{ url_for('user.user_profile', username=current_user.username) }}">Personal Page</a>
+			</li>
+			{% endif %}
+			<li>
+				 <a href="{{ url_for('post.archive') }}">Archive</a>
+			</li>
+			<!--
+			<li class="dropdown">
+				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+				<ul class="dropdown-menu">
+					<li>
+						 <a href="#">Action</a>
+					</li>
+					<li>
+						 <a href="#">Another action</a>
+					</li>
+					<li>
+						 <a href="#">Something else here</a>
+					</li>
+					<li class="divider">
+					</li>
+					<li>
+						 <a href="#">Separated link</a>
+					</li>
+					<li class="divider">
+					</li>
+					<li>
+						 <a href="#">One more separated link</a>
+					</li>
+				</ul>
+			</li>
+			-->
+		</ul>
+		<form class="navbar-form navbar-left" role="search" method="get" target="_blank" action="
+		https://www.google.com.hk/search">
+			<div class="form-group">
+				<input type=hidden name=domains value="www.pythondoc.com">
+				<input type=hidden name=sitesearch value="www.pythondoc.com">
+				<input class="form-control" type="text" name="q"/>
+			</div> <button type="submit" class="btn btn-default">Google Search</button>
+		</form>
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+				 <a href='{{ url_for("main.about_me") }}'>About me</a>
+			</li>
+			{% if current_user.is_authenticated %}
+			<li>
+				<a href="{{ url_for('user.user_profile', username = current_user.username) }}">
+					<img class="img-rounded" src="{{ current_user.gravatar(size=24
+					) }}"></a>
+			</li>
+			<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">我的账户
+					  <b class="caret"></b>
+					</a>
+				<ul class="dropdown-menu">
+					<li>
+						 <a href="{{ url_for('auth.mod_password') }}">修改密码</a>
+					</li>
+					<li>
+						 <a href="{{ url_for('auth.mod_email') }}">修改Email</a>
+					</li>
+					<li class="divider">
+					</li>
+					<li>
+						 <a href="{{ url_for('auth.logout') }}">登出</a>
+					</li>
+				</ul>
+			</li>
+			{% else %}
+			<li>
+				<a href="{{ url_for('auth.login') }}">登入</a>
+			</li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+{% endblock navbar %}
+
+{% block content %}
+<div class="container">
+	<div class="col-md-9 column">
+	{% for message in get_flashed_messages() %}
+	<div class="alert alert-warning">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		{{ message }}
+	</div>
+{% endfor %}
+</div>
+</div>
+
+
+{{ super() }}
+{% endblock content %}
+
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock scripts %}
+
+{% endblock body %}
+

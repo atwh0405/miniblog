@@ -1,50 +1,29 @@
-﻿{% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf %}
-{% import '_macro.html' as macro %}
+{% extends 'base.html' %}
+{% import 'comp/_macro.html' as macro %}
 
-{% block title %}Flask{% endblock %}
-
-{% block head %}
-{{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" type="text/css">
-{% endblock %}
+{% block title %}AT-Blog{% endblock %}
 
 {% block content %}
-<div class="container">
-    {% block page_content %}
-    {{ super() }}
-    <div class = 'page-header'>
-        <h1>Hello,
-            {% if current_user.is_authenticated %}
-                {{ current_user.username }}!
-            {% else %}Stranger!
-            {% endif %}
-        </h1>
-        <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
-        <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
-    </div>
-    <div>
-        {% if current_user.can(Permission.WRITE_ARTICLES) %}
-        {{ wtf.quick_form(form) }}
-        {% endif %}
-    </div>
-    <div class="post-tab">
-        <ul class="nav nav-tabs">
-            <li {% if not show_followed %} class="active" {% endif %}><a href="{{ url_for('.show_all') }}">All</a></li>
-            <li {% if show_followed %} class="active" {% endif %}><a href="{{ url_for('.show_followed') }}">Followed</a></li>
-        </ul>
-        {% include '_posts.html' %}
-    </div>
-    {% if pagination %}
-    <div class="pagination">
-        {{ macro.pagination_widget(pagination, '.index', fragment='#comments') }}
-    </div>
-    {% endif %}
-    {% endblock %}
-</div>
-{% endblock %}
-
-{% block scripts %}
 {{ super() }}
-{{ pagedown.include_pagedown() }}
-{% endblock %}
+<div class="container content">
+	<div class="row">
+		<div class="col-md-9 column">
+            {% include 'comp/_posts.html' %}
+			<div class="pagination">
+				{{ macro.pagination(pagination, 'main.index') }}
+			</div>
+		</div>
+		<div class="col-md-3 column sidebar">
+			<h3 class="tag-head text-center">TAGS</h3>
+			<ul class="tag-list">
+				<li class="tag-item h4">tag1()</li>
+				<li class="tag-item h4">tag2()</li>
+				<li class="tag-item h4">tag3()</li>
+				<li class="tag-item h4">tag4()</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}

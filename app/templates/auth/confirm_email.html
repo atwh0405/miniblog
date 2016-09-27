@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AT-BLOG Confirmation</title>
 </head>
 <body>
-
+<h3>请确认您在AT-BLOG注册的账户</h3>
+<br>
+<p>{{ user.username }}你好！欢迎注册，请点击下面链接进行确认：</p>
+<a>{{ url_for('auth.confirm', token=token, _external=True) }}</a>
 </body>
 </html>
