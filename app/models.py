@@ -37,7 +37,12 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author = db.relationship('User', backref=db.backref('posts', lazy='dynamic'))
     body_html = db.Column(db.Text)
-    ta
+
+    def __repr__(self):
+        if not self.title is None:
+            return self.title
+        else:
+            return 'No title'
 
     @staticmethod
     def generate_fake(count=50):
@@ -50,6 +55,7 @@ class Post(db.Model):
             #
             u = User.query.offset(randint(0, user_count - 1)).first()
             p = Post(body=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
+                     title= forgery_py.lorem_ipsum.title(),
                      timestamp=forgery_py.date.date(True),
                      author=u)
             db.session.add(p)
@@ -254,3 +260,21 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
+
+
+tag_post = db.Table('tag_post',
+                    db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
+                    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')))
+
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    posts = db.relationship('Post', secondary=tag_post,
+                            backref=db.backref('tags', lazy='dynamic'),
+                            lazy='dynamic')
+
+    def __repr__(self):
+        return self.name
+

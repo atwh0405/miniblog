@@ -127,7 +127,7 @@ div.flask-pagedown-preview h3 {
 body {
     background-color: #FAF7FA;
     font-size: 1em;
-    font-family: Georgia,'Times New Roman','Microsoft YaHei','STHeiti',SimHei;
+    font-family: 'Microsoft YaHei','STHeiti',SimHei;
 }
 
 .jum-head {
@@ -152,8 +152,9 @@ body {
     padding: 10px;
 }
 .tag-list {
-    list-style-type: square;
+    list-style-type: none;
     padding-bottom: 10px;
+    padding-left: 10px;
 }
 .tag-item {
     padding-bottom: 10px;

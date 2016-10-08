@@ -14,7 +14,9 @@
                     </span>
                     <span class="post-tag">
                         <i class="iconfont icon-biaoqian"></i>
-                        这是标签
+                        {% for tag in tags %}
+                        <a href="{{ url_for('tag.some_tag', id=tag.id) }}">{{ tag.name + '  ' }}</a>
+                        {% endfor %}
                     </span>
                     <span class="profile-thumbnail">
                         <a href="{{ url_for('user.user_profile', username=post.author.username) }}">

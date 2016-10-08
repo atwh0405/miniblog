@@ -114,3 +114,11 @@ class CommentView(ModelView):
         return current_user.is_administrator()
 
 
+class TagView(ModelView):
+    column_exclude_list = ['post']
+    create_modal = True
+    edit_modal = True
+
+    def is_accessible(self):
+        return current_user.is_administrator()
+

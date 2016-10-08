@@ -4,7 +4,7 @@
 from flask import flash, render_template, request, current_app
 from . import main
 from flask_login import login_required
-from ..models import Permissions, Post
+from ..models import Permissions, Post, Tag
 
 
 @main.app_context_processor
@@ -14,11 +14,12 @@ def inject_permissions():
 
 @main.route('/')
 def index():
+    tags = Tag.query.order_by(Tag.name.asc()).limit(5).all()
     page = request.args.get('p', 1, type=int)
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, per_page=current_app.config['PER_PAGE'], error_out=False)
     posts = pagination.items
-    return render_template('main/index.html', posts=posts, pagination=pagination)
+    return render_template('main/index.html', posts=posts, pagination=pagination, tags=tags)
 
 
 @main.route('/about')

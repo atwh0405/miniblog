@@ -12,7 +12,7 @@ from instance.config import config
 from flask_admin import Admin
 from flask_admin.contrib.fileadmin import FileAdmin
 from .admin.views import AuthenticatedMenuLink, UnauthenticatedMenuLink, \
-	UserView, PostView, CommentView
+	UserView, PostView, CommentView, TagView
 import os
 
 
@@ -25,10 +25,11 @@ login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 myadmin = Admin(name='AT-BLOG', template_mode='bootstrap3')
-from .models import User, Post, Comment
+from .models import User, Post, Comment, Tag
 myadmin.add_view(UserView(User, db.session, name='用户管理', endpoint='user-manage'))
 myadmin.add_view(PostView(Post, db.session, name='文章管理', endpoint='post-manage'))
 myadmin.add_view(CommentView(Comment, db.session, name='评论管理', endpoint='comment-manage'))
+myadmin.add_view(TagView(Tag, db.session, name='标签管理', endpoint='tag-manage'))
 myadmin.add_link(AuthenticatedMenuLink(name=u'返回', endpoint='main.index'))
 myadmin.add_link(UnauthenticatedMenuLink(name=u'登录', endpoint='auth.login'))
 path = os.path.join(os.path.dirname(__file__), 'static')
@@ -52,10 +53,12 @@ def create_app(config_name):
 	from .user import user as user_blueprint
 	from .post import post as post_blueprint
 	from .admin import admin as admin_blueprint
+	from .tag import tag as tag_blueprint
 	app.register_blueprint(main_blueprint)
 	app.register_blueprint(auth_blueprint, url_prefix='/auth')
 	app.register_blueprint(user_blueprint, url_prefix='/user')
 	app.register_blueprint(post_blueprint, url_prefix='/post')
 	app.register_blueprint(admin_blueprint, url_prefix='/admin')
+	app.register_blueprint(tag_blueprint, url_prefix='/tag')
 	return app
 

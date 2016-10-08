@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container content">
+    <div class="row">
+        <div class="col-md-9 column">
+            <div class="post-title h2">所有标签</div>
+            {% for tag in tags %}
+                <article class="post">
+                    <span class="post-date">
+                        <i class="iconfont icon-biaoqian"></i>
+                    </span>
+                    <span class="h4">
+                        <a href="{{ url_for('tag.some_tag', id=tag.id) }}">{{ tag.name }}</a>
+                    </span>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{{ super() }}
+{% endblock %}

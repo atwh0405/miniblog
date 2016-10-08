@@ -1,0 +1,16 @@
+<div class="col-md-3 column sidebar">
+			<a href="{{ url_for('tag.tag_list') }}">
+				<h3 class="tag-head text-center">TAGS</h3>
+			</a>
+			<ul class="tag-list">
+				{% for tag in tags %}
+				<li class="tag-item h4">
+                    <i class="iconfont icon-biaoqian"></i>
+					<a href="{{ url_for('tag.some_tag', id=tag.id) }}">
+                        {{tag.name + '   '}}
+						<span class="pull-right uk-badge uk-badge-notification">{{tag.posts.count()}}</span>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>

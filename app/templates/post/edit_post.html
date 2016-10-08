@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}编辑 - {{ post.title }}{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/static/jquery.tagsinput.css" />
+<link rel="stylesheet" href="/static/jquery.tag-editor.css"/>
+{% endblock%}
 {% block content %}
 {{ super() }}
 {% include 'comp/edit_postbox.html' %}
@@ -8,4 +13,35 @@
 {% block scripts %}
 {{ super() }}
 {{ pagedown.include_pagedown() }}
+<script type="text/javascript" src="/static/jquery.tagsinput.js"></script>
+<script type="text/javascript" src="/static/jquery.caret.min.js"></script>
+<script type="text/javascript" src="/static/jquery.tag-editor.min.js"></script>
+<script type="text/javascript">
+/* 后端传来的python数据需要进行序列化，用tojson */
+$(document).ready(function() {
+    var tags = {{ tags|tojson }};
+    var post_id = {{ post.id|tojson }};
+    $('#tags').tagEditor({
+        initialTags: tags,
+        delimiter: ',', /* comma */
+        placeholder: 'Enter tags ...',
+        beforeTagSave: function(field, editor, tags, tag, val) {
+            newtag = {'new': val, 'post_id': post_id};
+            /* 用Ajax新增标签 */
+            $.getJSON('/tag/add_tag', {data : JSON.stringify(newtag)}, function(data) {
+                alert(data.result);
+            });
+        },
+       beforeTagDelete: function(field, editor, tags, val) {
+            var q = confirm('移除标签' + val + '吗？');
+            if (q) {
+                deletetag = {'delete': val, 'post_id': post_id};
+                $.getJSON('/tag/delete_tag', {data : JSON.stringify(deletetag)}, function(data) {
+                    alert(data.result);
+                });
+            };
+            return q;
+        }
+    });});
+</script>
 {% endblock scripts %}

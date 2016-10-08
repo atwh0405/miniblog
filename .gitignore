@@ -88,3 +88,6 @@ ENV/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# sqlite data file
+*.sqlite
