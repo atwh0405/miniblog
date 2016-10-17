@@ -4,7 +4,6 @@
 {% block title %}AT-Blog{% endblock %}
 
 {% block content %}
-{{ super() }}
 <div class="container content">
 	<div class="row">
 		<div class="col-md-9 column">
@@ -16,6 +15,5 @@
 {% include 'comp/sidebar.html' %}
 	</div>
 </div>
-
-
+{{ super() }}
 {% endblock content %}

@@ -13,7 +13,7 @@
                     {{ post.author.username }}
                 </a>
             </div>
-            <a class="coment-body" href="{{ url_for('post.post_profile', id=post.id)}}">{{ post.title }}</a>
+            <a class="comment-body" href="{{ url_for('post.post_profile', id=post.id)}}">{{ post.title }}</a>
             <div class="comment-date">{{ moment(post.timestamp).format('LLL') }}</div>
         </div>
         <div class="operation">
@@ -41,9 +41,19 @@
                 </a>
             </div>
         </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
+    </div>
+</div><!-- /.modal -->
         </div>
     </li>
     {% endfor %}
+</ul>
 
+<script>
+    $(document).ready(function(){
+        $('#confirm').on('show.bs.modal', function(e){
+            var btn = $(e.relatedTarget);
+            $(this).children().find('#modal-confirm').attr('href', 'http://127.0.0.1:5000/post/delete_post/' + btn.attr('post-id'));
+            var title = btn.parents('.operation').prev().children().text();
+            $(this).find('.modal-body').text('确定要删除标题为“' + title + '”的文章吗？');
+    });});
+</script>

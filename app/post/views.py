@@ -40,6 +40,17 @@ def create_post():
     return render_template('post/create_post.html', form=form)
 
 
+@post.route('/delete_post/<id>')
+@login_required
+def delete_post(id):
+    post_c = Post.query.get_or_404(id)
+    user_c = post_c.author
+    db.session.delete(post_c)
+    db.session.commit()
+    flash(u'文章已删除')
+    return redirect(url_for('user.user_profile', username=user_c.username))
+
+
 @post.route('/<id>', methods=['POST', 'GET'])
 def post_profile(id):
     post_c = Post.query.get_or_404(id)

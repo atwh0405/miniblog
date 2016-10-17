@@ -9,14 +9,19 @@
             <img class="img-rounded profile-icon" src="{{ user.gravatar(size=128) }}">
             {% if user.name or user.location %}
             <p>
-                    {% if user.name %}{{ user.name }}{% endif %}
+                    {% if user.name %}
+                    <span><i class="iconfont icon-renwu"></i></span>{{ user.name }}{% endif %}
                     {% if user.location %}
-                        <a href="http://maps.google.com/?q={{ user.location }}">@{{ user.location }}</a>
+                        <span><i class="iconfont icon-appxiugaiicon10"></i></span>
+                        <a href="http://maps.google.com/?q={{ user.location }}">
+                            {{ user.location }}</a>
                     {% endif %}
                 </p>
             {% endif %}
             {% if current_user.is_administrator() %}
-            <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+            <p><span><i class="iconfont icon-email"></i></span>
+                <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+            </p>
             {% endif %}
             {% if user.about_me %}<P>{{ user.about_me }}</P>{% endif %}
             <p>
@@ -26,17 +31,17 @@
             </p>
             {% if current_user.is_administrator() %}
             <a class="btn btn-danger" href="{{ url_for('user.edit_profile_by_admin', id=user.id) }}">
-                编辑资料
+                <span><i class="iconfont icon-bianji"></i></span>编辑资料
             </a>
-            <a href="{{ url_for('post.create_post') }}">
-                    <button  class="btn btn-danger">写新文章</button>
+            <a  class="btn btn-danger" href="{{ url_for('post.create_post') }}">
+                <span><i class="iconfont icon-wenzhang"></i></span>写新文章
             </a>
             {% elif user == current_user %}
             <a class="btn btn-primary" href="{{ url_for('user.edit_profile') }}">
-                编辑资料
+                <span><i class="iconfont icon-bianji"></i></span>编辑资料
             </a>
-            <a href="{{ url_for('post.create_post') }}">
-                    <button  class="btn btn-primary">写新文章</button>
+            <a class="btn btn-primary" href="{{ url_for('post.create_post') }}">
+                <span><i class="iconfont icon-wenzhang"></i></span>写新文章
             </a>
             {% endif %}
         </div>
@@ -45,8 +50,10 @@
                 <!--通过判断传入参数决定应该渲染哪一部分-->
                 {% if comments %}
                 <ul class="nav nav-tabs">
-                    <li><a href="{{ url_for('user.user_profile', username=user.username)}}">文章</a></li>
-                    <li class="active"><a href=>评论</a></li>
+                    <li><a href="{{ url_for('user.user_profile', username=user.username)}}">
+                        <span><i class="iconfont icon-iconfontfilesfill"></i></span> 文章</a></li>
+                    <li class="active"><a href=>
+                        <span><i class="iconfont icon-pinglun"></i></span> 评论</a></li>
                 </ul>
                 {% include 'comp/_comments.html' %}
                 <div class="pagination">
@@ -56,8 +63,10 @@
                 {% endif %}
                 {% if posts %}
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#">文章</a></li>
-                    <li><a href="{{ url_for('user.user_profile_comments', username=user.username)}}">评论</a></li>
+                    <li class="active"><a href="#">
+                        <span><i class="iconfont icon-iconfontfilesfill"></i></span> 文章</a></li>
+                    <li><a href="{{ url_for('user.user_profile_comments', username=user.username)}}">
+                        <span><i class="iconfont icon-pinglun"></i></span> 评论</a></li>
                 </ul>
                 {% include 'comp/_posts.html' %}
                 <div class="pagination">
@@ -66,15 +75,18 @@
                 {% endif %}
                 {% if comments == [] %}
                 <ul class="nav nav-tabs">
-                    <li><a href="{{ url_for('user.user_profile', username=user.username)}}">文章</a></li>
-                    <li class="active"><a href=>评论</a></li>
+                    <li><a href="{{ url_for('user.user_profile', username=user.username)}}">
+                        <span><i class="iconfont icon-iconfontfilesfill"></i></span> 文章</a></li>
+                    <li class="active"><a href=><span><i class="iconfont icon-pinglun"></i></span> 评论</a></li>
                 </ul>
                 <h2>暂无评论！</h2>
                 {% endif %}
                 {% if posts == [] %}
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#">文章</a></li>
-                    <li><a href="{{ url_for('user.user_profile_comments', username=user.username)}}">评论</a></li>
+                    <li class="active"><a href="#">
+                        <span><i class="iconfont icon-iconfontfilesfill"></i></span> 文章</a></li>
+                    <li><a href="{{ url_for('user.user_profile_comments', username=user.username)}}">
+                        <span><i class="iconfont icon-pinglun"></i></span> 评论</a></li>
                 </ul>
                 <h2>暂无文章！</h2>
                 {% endif %}

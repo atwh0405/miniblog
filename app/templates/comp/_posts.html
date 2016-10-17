@@ -10,19 +10,18 @@
             {{ moment(post.timestamp).format('YYYY-MM-DD') }}
         </span>
         <span class="post-tag">
+            {% if post.tags.all() %}
             <i class="iconfont icon-biaoqian"></i>
             {% for tag in post.tags.all() %}
                 <a href="{{ url_for('tag.some_tag', id=tag.id) }}">{{ tag.name + '  ' }}</a>
             {% endfor %}
+            {% endif %}
         </span>
-        <!--
-        <span class="profile-thumbnail">
+        <span class="post-author">
             <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
                 <img class="img-rounded profile_thumbnail"
-                     src="{{ post.author.gravatar(size=40) }}">
+                     src="{{ post.author.gravatar(size=24) }}">
             </a>
-        </span>-->
-        <span class="post-author">
             <a href="{{ url_for('user.user_profile', username=post.author.username) }}">
                 {{ post.author.username }}
             </a>
@@ -35,10 +34,11 @@
     </div>
     <div class="post-footer">
         <a href="{{ url_for('post.post_profile', id=post.id)}}">
-            <button type="button" class="btn btn-primary">Read More</button></a>
+            <button type="button" class="uk-button uk-button-primary">Read More
+                <i class="iconfont icon-more"></i></button></a>
         <div class="post-comment pull-right">
             <a href="{{ url_for('post.post_profile', id=post.id)}}#comments">
-                <span class="label label-info">评论 {{ post.comments.count() }}</span>
+                <span class="label label-info">{{ post.comments.count() }}</span>
             </a>
         </div>
     </div>

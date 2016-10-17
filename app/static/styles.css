@@ -36,15 +36,10 @@ p.post-meta {
 span.post-date {
     margin-right: 5px;
 }
-span.post-tags {
-
-}
 span.post-author {
     font-weight: bold;
     position: absolute;
     right: 1.56em;
-}
-span.post-thumbnail {
 }
 div.post-content {
     line-height: 200%;
@@ -123,11 +118,10 @@ div.flask-pagedown-preview h3 {
 .table.followers tr {
     border-bottom: 1px solid #e0e0e0;
 }
-
 body {
-    background-color: #FAF7FA;
     font-size: 1em;
     font-family: 'Microsoft YaHei','STHeiti',SimHei;
+    position: relative;
 }
 
 .jum-head {
@@ -138,10 +132,10 @@ body {
 }
 .jumbotron {
     margin-bottom: 0;
-
 }
 .content {
-    padding-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 50px;
 }
 .sidebar:hover {
     background-color: #F0F0F0;
@@ -161,7 +155,22 @@ body {
 }
 html {
     font-size: 16px;
+    min-height: 100%;
+    background-color: #FAF7FA;
 }
-.operation {
+footer {
+    background-color: #AEC1D2;
+    height: 150px;
+    width: 100%;
 }
-
+.contact {
+    padding-top: 20px;
+}
+.scrolltop {
+    position: fixed;
+    bottom: 120px;
+    right: 80px;
+    cursor: pointer;
+    opacity: 0.8;
+    display: block;
+}

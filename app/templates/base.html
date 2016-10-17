@@ -2,19 +2,19 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1473176225_039732.css">
-<link rel="shortcut icon" href=" /static/favicon.ico">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1476254354_464733.css">
+<link rel="shortcut icon" href="/static/favicon.ico">
 <link rel="stylesheet" href="//cdn.bootcss.com/uikit/2.25.0/css/uikit.css" />
 <script type="text/javascript" src="//cdn.bootcss.com/uikit/2.25.0/js/uikit.js"></script>
 {% endblock %}
 
 {% block body %}
-<div class="jumbotron" style="background-color: #AEC1D2">
-		<div class="container">
-			<h2 class="jum-head text-center">Welcome to AT-BLOG!</h2>
-			<p class="lead text-right">无情最是台城柳，依旧烟笼十里堤</p>
-			<p class="jum-author text-right">— 韦庄</p>
-		</div>
+<div class="jumbotron" id='top' style="background-color: #AEC1D2">
+	<div class="container">
+		<h2 class="jum-head text-center">Welcome to AT-BLOG!</h2>
+		<p class="lead text-right">We are on the edge of change comparable to the rise of human life on Earth.</p>
+		<p class="jum-author text-right">- Vernor Vinge</p>
+	</div>
 </div>
 {% block navbar %}
 <nav class="navbar navbar-default navbar-inverse" role="navigation">
@@ -29,11 +29,13 @@
 		<ul class="nav navbar-nav">
 			{% if current_user.is_authenticated %}
 			<li>
-				 <a href="{{ url_for('user.user_profile', username=current_user.username) }}">Personal Page</a>
+				<a href="{{ url_for('user.user_profile', username=current_user.username) }}">
+					<span><i class="iconfont icon-gerenzhuye"></i></span> Personal Page</a>
 			</li>
 			{% endif %}
 			<li>
-				 <a href="{{ url_for('post.archive') }}">Archive</a>
+				 <a href="{{ url_for('post.archive') }}">
+					 <span><i class="iconfont icon-5guidang"></i></span> Archive</a>
 			</li>
 			<!--
 			<li class="dropdown">
@@ -68,11 +70,13 @@
 				<input type=hidden name=domains value="www.pythondoc.com">
 				<input type=hidden name=sitesearch value="www.pythondoc.com">
 				<input class="form-control" type="text" name="q"/>
-			</div> <button type="submit" class="btn btn-default">Google Search</button>
+			</div> <button type="submit" class="btn btn-default">
+					<span><i class="iconfont icon-sousuo"></i></span> Google Search</button>
 		</form>
 		<ul class="nav navbar-nav navbar-right">
 			<li>
-				 <a href='{{ url_for("main.about_me") }}'>About me</a>
+				 <a href='{{ url_for("main.about_me") }}'>
+					 <span><i class="iconfont icon-guanyuwomen"></i></span> About me</a>
 			</li>
 			{% if current_user.is_authenticated %}
 			<li>
@@ -86,29 +90,30 @@
 					</a>
 				<ul class="dropdown-menu">
 					<li>
-						 <a href="{{ url_for('auth.mod_password') }}">修改密码</a>
+						 <a href="{{ url_for('auth.mod_password') }}">
+							 <span><i class="iconfont icon-bianji"></i></span> 修改密码</a>
 					</li>
 					<li>
-						 <a href="{{ url_for('auth.mod_email') }}">修改Email</a>
+						 <a href="{{ url_for('auth.mod_email') }}">
+							 <span><i class="iconfont icon-bianji"></i></span> 修改Email</a>
 					</li>
 					<li class="divider">
 					</li>
 					<li>
-						 <a href="{{ url_for('auth.logout') }}">登出</a>
+						 <a href="{{ url_for('auth.logout') }}">
+							 <span><i class="iconfont icon-tuichudenglu"></i></span> 登出</a>
 					</li>
 				</ul>
 			</li>
 			{% else %}
 			<li>
-				<a href="{{ url_for('auth.login') }}">登入</a>
+				<a href="{{ url_for('auth.login') }}">
+					<span><i class="iconfont icon-dengru"></i></span> 登入</a>
 			</li>
 			{% endif %}
 		</ul>
 	</div>
 </nav>
-{% endblock navbar %}
-
-{% block content %}
 <div class="container">
 	<div class="col-md-9 column">
 	{% for message in get_flashed_messages() %}
@@ -116,18 +121,104 @@
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		{{ message }}
 	</div>
-{% endfor %}
+	{% endfor %}
+	</div>
 </div>
+{% endblock navbar %}
+
+{% block content %}
+<footer id='footer' class="uk-panel">
+	<div class="container">
+		<div class="row text-center">
+			<div class="btn-group contact">
+				<a class="btn btn-default" target=":_blank" title="Follow me on Facebook" href="#">
+					<i class="iconfont icon-facebook"></i>
+				</a>
+				<a class="btn btn-default" target=":_blank" title="Find me on Github" href="https://github.com/atwh0405">
+					<i class="iconfont icon-github"></i>
+				</a>
+				<a class="btn btn-default" target=":_blank" title="Follow me on Weibo" href="http://weibo.com/1783708025">
+					<i class="iconfont icon-weibo"></i>
+				</a>
+				<a class="btn btn-default" target=":_blank" title="Send me an Email" href="mailto:at.wh0405@163.com">
+					<i class="iconfont icon-email"></i>
+				</a>
+			</div>
+			<p class="small">DESIGNED AND BUILT BY ATWH0405</p>
+			<p class="uk-panel-title"><span><i class="iconfont icon-banquanshangbiao"></i></span>2016  AT-BLOG</p>
+		</div>
+	</div>
+</footer>
+<div class="scrolltop">
+	<a href="#top" data-uk-smooth-scroll>
+	<i class="iconfont icon-huidaodingbu"></i></a>
 </div>
-
-
-{{ super() }}
 {% endblock content %}
 
 
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
+<script type="text/javascript">
+		// Window load event used just in case window height is dependant upon images
+		$(window).bind("load", function() {
+			var footerHeight = 0,
+					footerTop = 0,
+					$footer = $("#footer");
+			positionFooter();
+			//定义positionFooter function
+			function positionFooter() {
+				//取到div#footer高度
+				footerHeight = $footer.height();
+				//div#footer离屏幕顶部的距离
+				footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+				/* DEBUGGING STUFF
+					console.log("Document height: ", $(document.body).height());
+					console.log("Window height: ", $(window).height());
+					console.log("Window scroll: ", $(window).scrollTop());
+					console.log("Footer height: ", footerHeight);
+					console.log("Footer top: ", footerTop);
+					console.log("-----------")
+				*/
+				//如果页面内容高度小于屏幕高度，div#footer将绝对定位到屏幕底部，否则div#footer保留它的正常静态定位
+				if ( ($(document.body).height()+footerHeight) < $(window).height()) {
+					$footer.css({
+						position: "absolute"
+					}).stop().animate({
+						top: footerTop
+					});
+				} else {
+					$footer.css({
+						position: "static"
+					});
+				}
+			}
+			$(window).scroll(positionFooter).resize(positionFooter);
+		});
+
+		  $(document).ready(function() {
+			//首先将#back-to-top隐藏
+			$(".scrolltop").hide();
+			//当滚动条的位置处于距顶部100像素以下时，跳转链接出现，否则消失
+			$(function() {
+			  $(window).scroll(function() {
+				if ($(window).scrollTop() > 100) {
+				  $(".scrolltop").fadeIn(500);
+				} else {
+				  $(".scrolltop").fadeOut(500);
+				}
+			  });
+			  //当点击跳转链接后，回到页面顶部位置
+			  $(".scrolltop").click(function() {
+				$('body,html').animate({
+				  scrollTop: 0
+				},
+				1000);
+				return false;
+			  });
+			});
+		  });
+</script>
 {% endblock scripts %}
 
 {% endblock body %}
